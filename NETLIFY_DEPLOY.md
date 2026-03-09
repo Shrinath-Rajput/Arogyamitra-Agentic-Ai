@@ -57,7 +57,7 @@ netlify deploy --prod
    - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
 6. **Add Environment Variables:**
    ```
-   GROQ_API_KEY=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
+   GROQ_API_KEY=your_api_key_here
    SECRET_KEY=arogyamitra-secret-key-change-in-production
    DATABASE_URL=sqlite:///./arogyamitra.db
    ALGORITHM=HS256

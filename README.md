@@ -72,7 +72,7 @@ cd ..
    Create `backend/.env` file with this content:
    ```env
    # Working API Key for project evaluation
-   GROQ_API_KEY=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
+   GROQ_API_KEY=your_api_key_here
    SECRET_KEY=arogyamitra-secret-key-change-in-production
    DATABASE_URL=sqlite:///./arogyamitra.db
    ALGORITHM=HS256
