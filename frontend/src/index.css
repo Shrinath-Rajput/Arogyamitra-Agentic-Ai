@@ -1,0 +1,1667 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Custom Utilities */
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s ease-out;
+}
+
+.animate-shimmer {
+  background: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+  background-size: 2000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-custom {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-custom {
+  animation: bounce 1s infinite;
+}
+
+/* Gradient Backgrounds */
+.gradient-purple-blue {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-pink-orange {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.gradient-green-blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.gradient-ocean {
+  background: linear-gradient(135deg, #2e3192 0%, #1bffff 100%);
+}
+
+.gradient-sunset {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Shadows */
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+.shadow-glow-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.shadow-glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.shadow-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Transitions */
+.transition-all-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Input Focus Effects */
+input:focus, textarea:focus, select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+/* Button Hover Effects */
+.btn-hover-lift {
+  transition: all 0.3s ease;
+}
+
+.btn-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Card Hover Effect */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Text Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-green {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Text Animations */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+  }
+}
+
+/* Animation Classes */
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.5s ease-out;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.animate-rotateIn {
+  animation: rotateIn 0.6s ease-out;
+}
+
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Hover Animations */
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-rotate {
+  transition: transform 0.3s ease;
+}
+
+.hover-rotate:hover {
+  transform: rotate(5deg);
+}
+
+.hover-lift-high {
+  transition: all 0.3s ease;
+}
+
+.hover-lift-high:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Text Effects */
+.text-appear {
+  animation: fadeIn 1s ease-out;
+}
+
+.text-slide-up {
+  animation: slideInUp 0.8s ease-out;
+}
+
+/* Smooth All Transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Button Press Effect */
+.btn-press:active {
+  transform: scale(0.95);
+}
+
+/* Stagger Animation Delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+.stagger-7 { animation-delay: 0.7s; }
+.stagger-8 { animation-delay: 0.8s; }
+
+/* Page Transition */
+.page-enter {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Focus Animations */
+input:focus, textarea:focus, select:focus {
+  transition: all 0.3s ease;
+  transform: scale(1.01);
+}
+
+/* List Item Animations */
+.list-item-enter {
+  animation: slideInRight 0.4s ease-out;
+}
+
+/* Badge Pulse */
+.badge-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+}
+
+/* ========================================
+   🎨 CSS 3D TRANSFORMATIONS & ANIMATIONS
+   ======================================== */
+
+/* 3D Perspective Container */
+.perspective-container {
+  perspective: 1000px;
+  perspective-origin: center;
+}
+
+.perspective-deep {
+  perspective: 2000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* 3D Keyframe Animations */
+@keyframes flip3d {
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg);
+  }
+}
+
+@keyframes flipY {
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: perspective(1000px) rotateY(90deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(180deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flipX {
+  0% {
+    transform: perspective(1000px) rotateX(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: perspective(1000px) rotateX(90deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: perspective(1000px) rotateX(180deg);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(180deg) rotateY(180deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(360deg) rotateY(360deg);
+  }
+}
+
+@keyframes swing3d {
+  0%, 100% {
+    transform: perspective(1000px) rotateY(-10deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateY(10deg);
+  }
+}
+
+@keyframes tilt3d {
+  0%, 100% {
+    transform: perspective(1000px) rotateX(-5deg) rotateY(-5deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+  }
+}
+
+@keyframes popIn3d {
+  0% {
+    transform: perspective(1000px) scale(0) translateZ(-500px);
+    opacity: 0;
+  }
+  50% {
+    transform: perspective(1000px) scale(1.1) translateZ(50px);
+  }
+  100% {
+    transform: perspective(1000px) scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn3d {
+  0% {
+    transform: perspective(1000px) translateZ(-1000px) rotateY(-30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1000px) translateZ(0) rotateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float3d {
+  0%, 100% {
+    transform: perspective(1000px) translateZ(0px) translateY(0px);
+  }
+  50% {
+    transform: perspective(1000px) translateZ(50px) translateY(-20px);
+  }
+}
+
+@keyframes cardFlip {
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+}
+
+@keyframes cubeRotate {
+  0% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: perspective(1000px) rotateX(90deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(90deg) rotateY(90deg);
+  }
+  75% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(90deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  }
+}
+
+@keyframes wobble3d {
+  0%, 100% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) rotateZ(-2deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) rotateZ(2deg);
+  }
+  75% {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) rotateZ(-1deg);
+  }
+}
+
+@keyframes depth3d {
+  0%, 100% {
+    transform: perspective(1000px) translateZ(0);
+  }
+  50% {
+    transform: perspective(1000px) translateZ(100px);
+  }
+}
+
+/* 3D Animation Classes */
+.animate-flip3d {
+  animation: flip3d 1s ease-in-out;
+}
+
+.animate-flipY {
+  animation: flipY 0.8s ease-in-out;
+}
+
+.animate-flipX {
+  animation: flipX 0.8s ease-in-out;
+}
+
+.animate-rotate3d {
+  animation: rotate3d 2s ease-in-out infinite;
+}
+
+.animate-swing3d {
+  animation: swing3d 2s ease-in-out infinite;
+}
+
+.animate-tilt3d {
+  animation: tilt3d 3s ease-in-out infinite;
+}
+
+.animate-popIn3d {
+  animation: popIn3d 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-slideIn3d {
+  animation: slideIn3d 0.8s ease-out;
+}
+
+.animate-float3d {
+  animation: float3d 4s ease-in-out infinite;
+}
+
+.animate-wobble3d {
+  animation: wobble3d 2s ease-in-out infinite;
+}
+
+.animate-depth3d {
+  animation: depth3d 3s ease-in-out infinite;
+}
+
+/* 3D Hover Effects */
+.hover-3d-lift {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.hover-3d-lift:hover {
+  transform: perspective(1000px) translateZ(50px) scale(1.05);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
+
+.hover-3d-rotate {
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d-rotate:hover {
+  transform: perspective(1000px) rotateY(15deg) rotateX(10deg);
+}
+
+.hover-3d-flip {
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d-flip:hover {
+  transform: perspective(1000px) rotateY(180deg);
+}
+
+.hover-3d-tilt-left {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d-tilt-left:hover {
+  transform: perspective(1000px) rotateY(-15deg) scale(1.02);
+}
+
+.hover-3d-tilt-right {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d-tilt-right:hover {
+  transform: perspective(1000px) rotateY(15deg) scale(1.02);
+}
+
+.hover-3d-scale {
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d-scale:hover {
+  transform: perspective(1000px) scale3d(1.1, 1.1, 1.1) translateZ(30px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.hover-3d-push {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d-push:hover {
+  transform: perspective(1000px) translateZ(-20px) scale(0.95);
+}
+
+.hover-3d-pop {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-style: preserve-3d;
+}
+
+.hover-3d-pop:hover {
+  transform: perspective(1000px) translateZ(80px) scale(1.08);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.35);
+}
+
+/* 3D Card Hover with Tilt Effect */
+.card-3d {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* 3D Button Effects */
+.btn-3d {
+  position: relative;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) translateZ(0);
+}
+
+.btn-3d:hover {
+  transform: perspective(1000px) translateZ(10px) rotateX(-5deg);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d:active {
+  transform: perspective(1000px) translateZ(-5px) rotateX(5deg);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-3d-push {
+  transition: all 0.2s ease;
+  transform-style: preserve-3d;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d-push:hover {
+  transform: perspective(1000px) translateY(-3px);
+  box-shadow: 0 11px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d-push:active {
+  transform: perspective(1000px) translateY(4px);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 3D Layer Effects */
+.layer-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.layer-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  transform: translateZ(-10px);
+  opacity: 0.5;
+  filter: blur(10px);
+  z-index: -1;
+}
+
+/* 3D Parallax Container */
+.parallax-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.parallax-3d > * {
+  transform: translateZ(0);
+  transition: transform 0.3s ease;
+}
+
+.parallax-layer-1 { transform: translateZ(50px); }
+.parallax-layer-2 { transform: translateZ(100px); }
+.parallax-layer-3 { transform: translateZ(150px); }
+
+/* 3D Stack Effect */
+.stack-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.stack-3d::before,
+.stack-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  border-radius: inherit;
+  opacity: 0.3;
+}
+
+.stack-3d::before {
+  transform: translateZ(-5px) scale(0.98);
+}
+
+.stack-3d::after {
+  transform: translateZ(-10px) scale(0.96);
+}
+
+/* 3D Glow Effect */
+.glow-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.glow-3d::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  background: inherit;
+  filter: blur(20px);
+  opacity: 0.5;
+  z-index: -1;
+  transform: translateZ(-20px);
+  transition: all 0.3s ease;
+}
+
+.glow-3d:hover::after {
+  filter: blur(30px);
+  opacity: 0.8;
+  transform: translateZ(-30px);
+}
+
+/* Interactive 3D Tilt (Mouse-Follow Effect) */
+.tilt-interactive {
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* 3D Text Effects */
+.text-3d {
+  text-shadow: 
+    1px 1px 0 rgba(0, 0, 0, 0.1),
+    2px 2px 0 rgba(0, 0, 0, 0.08),
+    3px 3px 0 rgba(0, 0, 0, 0.06),
+    4px 4px 0 rgba(0, 0, 0, 0.04),
+    5px 5px 10px rgba(0, 0, 0, 0.15);
+  transform: translateZ(20px);
+}
+
+.text-3d-pop {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.text-3d-pop:hover {
+  transform: perspective(1000px) translateZ(30px);
+  text-shadow: 
+    2px 2px 0 rgba(0, 0, 0, 0.1),
+    4px 4px 0 rgba(0, 0, 0, 0.08),
+    6px 6px 0 rgba(0, 0, 0, 0.06),
+    8px 8px 0 rgba(0, 0, 0, 0.04),
+    10px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 3D Flip Card */
+.flip-card-3d {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner {
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card-3d:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* 3D Cube Loader */
+.cube-3d {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  transform-style: preserve-3d;
+  animation: cubeRotate 4s infinite ease-in-out;
+}
+
+.cube-3d-face {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 102, 241, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 3D Shadow Effects */
+.shadow-3d-soft {
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 16px 32px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-3d-hard {
+  box-shadow: 
+    0 4px 0 rgba(0, 0, 0, 0.2),
+    0 8px 0 rgba(0, 0, 0, 0.15),
+    0 12px 0 rgba(0, 0, 0, 0.1),
+    0 16px 20px rgba(0, 0, 0, 0.3);
+}
+
+.shadow-3d-float {
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* 3D Transform Utilities */
+.rotate-3d-x { transform: perspective(1000px) rotateX(15deg); }
+.rotate-3d-y { transform: perspective(1000px) rotateY(15deg); }
+.rotate-3d-z { transform: perspective(1000px) rotateZ(15deg); }
+
+.translate-3d-z-10 { transform: perspective(1000px) translateZ(10px); }
+.translate-3d-z-20 { transform: perspective(1000px) translateZ(20px); }
+.translate-3d-z-30 { transform: perspective(1000px) translateZ(30px); }
+
+/* Performance Optimization for 3D */
+.gpu-accelerate {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* 3D Ripple Effect */
+@keyframes ripple3d {
+  0% {
+    transform: perspective(1000px) scale(0) translateZ(0);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1000px) scale(4) translateZ(50px);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   🌟 ADVANCED 3D/4D EFFECTS (25+ EFFECTS)
+   ======================================== */
+
+/* Effect 1: Spiral In */
+@keyframes spiralIn {
+  0% {
+    transform: perspective(1000px) rotateZ(-720deg) scale(0) translateZ(-500px);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1000px) rotateZ(0deg) scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* Effect 2: Prism Rotate */
+@keyframes prismRotate {
+  0% { transform: perspective(1500px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  33% { transform: perspective(1500px) rotateX(180deg) rotateY(120deg) rotateZ(60deg); }
+  66% { transform: perspective(1500px) rotateX(270deg) rotateY(240deg) rotateZ(120deg); }
+  100% { transform: perspective(1500px) rotateX(360deg) rotateY(360deg) rotateZ(180deg); }
+}
+
+/* Effect 3: DNA Helix */
+@keyframes dnaHelix {
+  0% { transform: perspective(1000px) rotateY(0deg) translateX(0) translateZ(0); }
+  25% { transform: perspective(1000px) rotateY(90deg) translateX(30px) translateZ(50px); }
+  50% { transform: perspective(1000px) rotateY(180deg) translateX(0) translateZ(0); }
+  75% { transform: perspective(1000px) rotateY(270deg) translateX(-30px) translateZ(50px); }
+  100% { transform: perspective(1000px) rotateY(360deg) translateX(0) translateZ(0); }
+}
+
+/* Effect 4: Tornado Spin */
+@keyframes tornadoSpin {
+  0% { transform: perspective(1000px) rotateY(0deg) scale(1) translateZ(0); }
+  50% { transform: perspective(1000px) rotateY(180deg) scale(1.3) translateZ(100px) rotateX(20deg); }
+  100% { transform: perspective(1000px) rotateY(360deg) scale(1) translateZ(0); }
+}
+
+/* Effect 5: Origami Unfold */
+@keyframes origamiUnfold {
+  0% { transform: perspective(1000px) rotateX(-90deg) scaleY(0.1); }
+  50% { transform: perspective(1000px) rotateX(-45deg) scaleY(0.5); }
+  100% { transform: perspective(1000px) rotateX(0deg) scaleY(1); }
+}
+
+/* Effect 6: Portal Open */
+@keyframes portalOpen {
+  0% { 
+    transform: perspective(1000px) scale(0) rotateZ(0deg);
+    border-radius: 50%;
+    opacity: 0;
+  }
+  50% { 
+    transform: perspective(1000px) scale(1.2) rotateZ(180deg);
+    border-radius: 30%;
+  }
+  100% { 
+    transform: perspective(1000px) scale(1) rotateZ(360deg);
+    border-radius: 0%;
+    opacity: 1;
+  }
+}
+
+/* Effect 7: Accordion Expand */
+@keyframes accordionExpand {
+  0% { transform: perspective(1000px) scaleY(0) translateY(-50%); }
+  60% { transform: perspective(1000px) scaleY(1.1) translateY(5%); }
+  100% { transform: perspective(1000px) scaleY(1) translateY(0); }
+}
+
+/* Effect 8: Vortex Entry */
+@keyframes vortexEntry {
+  0% { 
+    transform: perspective(1000px) rotateZ(-720deg) scale(3) translateZ(-300px);
+    opacity: 0;
+    filter: blur(20px);
+  }
+  100% { 
+    transform: perspective(1000px) rotateZ(0deg) scale(1) translateZ(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Effect 9: Crystal Facet */
+@keyframes crystalFacet {
+  0%, 100% { 
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    transform: perspective(1000px) rotateX(90deg) rotateY(45deg);
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    transform: perspective(1000px) rotateX(180deg) rotateY(90deg);
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    transform: perspective(1000px) rotateX(270deg) rotateY(135deg);
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* Effect 10: Rubber Band */
+@keyframes rubberBand3d {
+  0% { transform: perspective(1000px) scale3d(1, 1, 1); }
+  30% { transform: perspective(1000px) scale3d(1.25, 0.75, 1.1) rotateZ(3deg); }
+  40% { transform: perspective(1000px) scale3d(0.75, 1.25, 0.9) rotateZ(-3deg); }
+  50% { transform: perspective(1000px) scale3d(1.15, 0.85, 1.05) rotateZ(2deg); }
+  65% { transform: perspective(1000px) scale3d(0.95, 1.05, 0.95) rotateZ(-1deg); }
+  75% { transform: perspective(1000px) scale3d(1.05, 0.95, 1.02) rotateZ(1deg); }
+  100% { transform: perspective(1000px) scale3d(1, 1, 1) rotateZ(0); }
+}
+
+/* Effect 11: Carousel Rotate */
+@keyframes carouselRotate {
+  0% { transform: perspective(1200px) rotateY(0deg) translateZ(200px); }
+  25% { transform: perspective(1200px) rotateY(90deg) translateZ(200px) scale(0.8); }
+  50% { transform: perspective(1200px) rotateY(180deg) translateZ(200px); }
+  75% { transform: perspective(1200px) rotateY(270deg) translateZ(200px) scale(0.8); }
+  100% { transform: perspective(1200px) rotateY(360deg) translateZ(200px); }
+}
+
+/* Effect 12: Magnetic Pull */
+@keyframes magneticPull {
+  0% { 
+    transform: perspective(1000px) translateZ(-500px) scale(0.5);
+    opacity: 0;
+  }
+  70% { 
+    transform: perspective(1000px) translateZ(30px) scale(1.1);
+    opacity: 1;
+  }
+  100% { 
+    transform: perspective(1000px) translateZ(0) scale(1);
+  }
+}
+
+/* Effect 13: Kaleidoscope */
+@keyframes kaleidoscope {
+  0% { 
+    transform: perspective(1000px) rotate(0deg) scale(1);
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  25% { 
+    transform: perspective(1000px) rotate(90deg) scale(1.2) rotateX(45deg);
+    filter: hue-rotate(90deg) saturate(2);
+  }
+  50% { 
+    transform: perspective(1000px) rotate(180deg) scale(0.8) rotateY(45deg);
+    filter: hue-rotate(180deg) saturate(1);
+  }
+  75% { 
+    transform: perspective(1000px) rotate(270deg) scale(1.1) rotateX(-45deg);
+    filter: hue-rotate(270deg) saturate(2);
+  }
+  100% { 
+    transform: perspective(1000px) rotate(360deg) scale(1);
+    filter: hue-rotate(360deg) saturate(1);
+  }
+}
+
+/* Effect 14: Hologram Flicker */
+@keyframes hologramFlicker {
+  0%, 100% { 
+    transform: perspective(1000px) translateZ(0);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  10% { 
+    transform: perspective(1000px) translateZ(10px);
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+  20% { 
+    transform: perspective(1000px) translateZ(-5px);
+    opacity: 1;
+    filter: brightness(0.9);
+  }
+  30% { 
+    transform: perspective(1000px) translateZ(15px);
+    opacity: 0.9;
+    filter: brightness(1.3);
+  }
+}
+
+/* Effect 15: Domino Fall */
+@keyframes dominoFall {
+  0% { transform: perspective(1000px) rotateX(0deg) translateZ(0); }
+  50% { transform: perspective(1000px) rotateX(60deg) translateZ(50px); }
+  100% { transform: perspective(1000px) rotateX(90deg) translateZ(0) translateY(50px); }
+}
+
+/* Effect 16: Explosion Burst */
+@keyframes explosionBurst {
+  0% { 
+    transform: perspective(1000px) scale(0) rotateZ(0deg);
+    opacity: 0;
+  }
+  50% { 
+    transform: perspective(1000px) scale(1.5) rotateZ(180deg) translateZ(100px);
+    opacity: 1;
+  }
+  100% { 
+    transform: perspective(1000px) scale(1) rotateZ(360deg) translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* Effect 17: Implode */
+@keyframes implode {
+  0% { 
+    transform: perspective(1000px) scale(1.5) rotateZ(0deg) translateZ(100px);
+    opacity: 1;
+  }
+  100% { 
+    transform: perspective(1000px) scale(0) rotateZ(-360deg) translateZ(-500px);
+    opacity: 0;
+  }
+}
+
+/* Effect 18: Page Curl */
+@keyframes pageCurl {
+  0% { 
+    transform: perspective(1000px) rotateY(0deg);
+    transform-origin: right center;
+  }
+  100% { 
+    transform: perspective(1000px) rotateY(-180deg);
+    transform-origin: right center;
+  }
+}
+
+/* Effect 19: Jello Bounce */
+@keyframes jelloBounce3d {
+  0%, 100% { transform: perspective(1000px) scale3d(1, 1, 1); }
+  11% { transform: perspective(1000px) scale3d(0.9, 1.1, 0.95) skewX(-12.5deg); }
+  22% { transform: perspective(1000px) scale3d(1.1, 0.9, 1.05) skewX(6.25deg); }
+  33% { transform: perspective(1000px) scale3d(0.95, 1.05, 0.98) skewX(-3.125deg); }
+  44% { transform: perspective(1000px) scale3d(1.05, 0.95, 1.02) skewX(1.5625deg); }
+  55% { transform: perspective(1000px) scale3d(1, 1, 1); }
+}
+
+/* Effect 20: Glitch Effect */
+@keyframes glitch3d {
+  0%, 100% { 
+    transform: perspective(1000px) translate(0) rotateY(0deg);
+    filter: hue-rotate(0deg);
+  }
+  10% { 
+    transform: perspective(1000px) translate(-5px, 5px) rotateY(5deg);
+    filter: hue-rotate(90deg);
+  }
+  20% { 
+    transform: perspective(1000px) translate(5px, -5px) rotateY(-5deg);
+    filter: hue-rotate(180deg);
+  }
+  30% { 
+    transform: perspective(1000px) translate(-3px, 3px) rotateY(3deg);
+    filter: hue-rotate(270deg);
+  }
+  40% { 
+    transform: perspective(1000px) translate(3px, -3px) rotateY(-3deg);
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Effect 21: Morph Shape */
+@keyframes morphShape {
+  0% { 
+    transform: perspective(1000px) scale(1);
+    border-radius: 0%;
+  }
+  25% { 
+    transform: perspective(1000px) scale(1.2) rotateZ(90deg);
+    border-radius: 50%;
+  }
+  50% { 
+    transform: perspective(1000px) scale(0.8) rotateZ(180deg);
+    border-radius: 20%;
+  }
+  75% { 
+    transform: perspective(1000px) scale(1.1) rotateZ(270deg);
+    border-radius: 40%;
+  }
+  100% { 
+    transform: perspective(1000px) scale(1) rotateZ(360deg);
+    border-radius: 0%;
+  }
+}
+
+/* Effect 22: Tunnel Vision */
+@keyframes tunnelVision {
+  0% { 
+    transform: perspective(500px) translateZ(-1000px) scale(3);
+    opacity: 0;
+  }
+  100% { 
+    transform: perspective(500px) translateZ(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Effect 23: Shatter */
+@keyframes shatter {
+  0% { 
+    transform: perspective(1000px) scale(1) rotateZ(0deg);
+    opacity: 1;
+  }
+  50% { 
+    transform: perspective(1000px) scale(1.2) rotateZ(5deg);
+    opacity: 0.8;
+  }
+  100% { 
+    transform: perspective(1000px) scale(0.8) rotateZ(-5deg) translateZ(-100px);
+    opacity: 0;
+  }
+}
+
+/* Effect 24: Bloom */
+@keyframes bloom {
+  0% { 
+    transform: perspective(1000px) scale(0) rotateZ(-180deg);
+    opacity: 0;
+    filter: blur(10px) brightness(0);
+  }
+  50% { 
+    transform: perspective(1000px) scale(1.2) rotateZ(0deg);
+    filter: blur(0) brightness(1.5);
+  }
+  100% { 
+    transform: perspective(1000px) scale(1) rotateZ(0deg);
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+}
+
+/* Effect 25: Matrix Rain */
+@keyframes matrixRain {
+  0% { 
+    transform: perspective(1000px) translateY(-100%) scaleY(0);
+    opacity: 0;
+  }
+  50% { 
+    transform: perspective(1000px) translateY(0%) scaleY(1.2);
+    opacity: 1;
+  }
+  100% { 
+    transform: perspective(1000px) translateY(0%) scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Effect 26: Infinity Loop */
+@keyframes infinityLoop {
+  0% { transform: perspective(1000px) translateX(0) translateY(0) rotateY(0deg); }
+  25% { transform: perspective(1000px) translateX(100px) translateY(-50px) rotateY(90deg) scale(0.8); }
+  50% { transform: perspective(1000px) translateX(0) translateY(-100px) rotateY(180deg); }
+  75% { transform: perspective(1000px) translateX(-100px) translateY(-50px) rotateY(270deg) scale(0.8); }
+  100% { transform: perspective(1000px) translateX(0) translateY(0) rotateY(360deg); }
+}
+
+/* Effect 27: Cube Reveal */
+@keyframes cubeReveal {
+  0% { 
+    transform: perspective(1000px) rotateX(-90deg) rotateY(0deg) translateZ(-100px);
+    opacity: 0;
+  }
+  50% { 
+    transform: perspective(1000px) rotateX(-45deg) rotateY(45deg) translateZ(50px);
+    opacity: 0.5;
+  }
+  100% { 
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* Effect 28: Neon Pulse */
+@keyframes neonPulse3d {
+  0%, 100% { 
+    transform: perspective(1000px) scale(1) translateZ(0);
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    filter: brightness(1);
+  }
+  50% { 
+    transform: perspective(1000px) scale(1.05) translateZ(20px);
+    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, 0 0 90px currentColor;
+    filter: brightness(1.5);
+  }
+}
+
+/* ========================================
+   🎯 ANIMATION CLASSES FOR 25+ EFFECTS
+   ======================================== */
+
+.animate-spiralIn { animation: spiralIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.animate-prismRotate { animation: prismRotate 3s ease-in-out infinite; }
+.animate-dnaHelix { animation: dnaHelix 4s ease-in-out infinite; }
+.animate-tornadoSpin { animation: tornadoSpin 2s ease-in-out infinite; }
+.animate-origamiUnfold { animation: origamiUnfold 0.6s ease-out; }
+.animate-portalOpen { animation: portalOpen 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.animate-accordionExpand { animation: accordionExpand 0.5s ease-out; }
+.animate-vortexEntry { animation: vortexEntry 1s ease-out; }
+.animate-crystalFacet { animation: crystalFacet 4s ease-in-out infinite; }
+.animate-rubberBand3d { animation: rubberBand3d 1s ease-in-out; }
+.animate-carouselRotate { animation: carouselRotate 3s ease-in-out infinite; }
+.animate-magneticPull { animation: magneticPull 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.animate-kaleidoscope { animation: kaleidoscope 5s ease-in-out infinite; }
+.animate-hologramFlicker { animation: hologramFlicker 2s ease-in-out infinite; }
+.animate-dominoFall { animation: dominoFall 0.8s ease-in; }
+.animate-explosionBurst { animation: explosionBurst 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.animate-implode { animation: implode 0.5s ease-in; }
+.animate-pageCurl { animation: pageCurl 1s ease-in-out; }
+.animate-jelloBounce3d { animation: jelloBounce3d 0.9s ease-in-out; }
+.animate-glitch3d { animation: glitch3d 0.5s ease-in-out; }
+.animate-morphShape { animation: morphShape 3s ease-in-out infinite; }
+.animate-tunnelVision { animation: tunnelVision 0.8s ease-out; }
+.animate-shatter { animation: shatter 0.6s ease-in; }
+.animate-bloom { animation: bloom 0.8s ease-out; }
+.animate-matrixRain { animation: matrixRain 0.7s ease-out; }
+.animate-infinityLoop { animation: infinityLoop 4s ease-in-out infinite; }
+.animate-cubeReveal { animation: cubeReveal 0.8s ease-out; }
+.animate-neonPulse3d { animation: neonPulse3d 2s ease-in-out infinite; }
+
+/* ========================================
+   🎨 ADVANCED HOVER EFFECTS (20+ STYLES)
+   ======================================== */
+
+/* Hover 1: Spiral Hover */
+.hover-spiral {
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+}
+.hover-spiral:hover {
+  transform: perspective(1000px) rotateZ(180deg) scale(1.1) translateZ(30px);
+}
+
+/* Hover 2: Morph Hover */
+.hover-morph {
+  transition: all 0.6s ease;
+  transform-style: preserve-3d;
+}
+.hover-morph:hover {
+  transform: perspective(1000px) scale(1.15);
+  border-radius: 50%;
+}
+
+/* Hover 3: Prismatic */
+.hover-prismatic {
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+}
+.hover-prismatic:hover {
+  transform: perspective(1000px) rotateX(30deg) rotateY(30deg) rotateZ(15deg);
+  filter: hue-rotate(90deg) saturate(1.5);
+}
+
+/* Hover 4: Depth Shift */
+.hover-depth-shift {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-style: preserve-3d;
+}
+.hover-depth-shift:hover {
+  transform: perspective(1000px) translateZ(100px) scale(1.2);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.4);
+}
+
+/* Hover 5: Carousel Peek */
+.hover-carousel-peek {
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+.hover-carousel-peek:hover {
+  transform: perspective(1200px) rotateY(25deg) translateX(20px);
+}
+
+/* Hover 6: Origami Fold */
+.hover-origami {
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+}
+.hover-origami:hover {
+  transform: perspective(1000px) rotateX(45deg) translateY(-10px);
+}
+
+/* Hover 7: Rubber Stretch */
+.hover-rubber {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+.hover-rubber:hover {
+  transform: perspective(1000px) scale3d(1.1, 0.9, 1.05) rotateZ(2deg);
+}
+
+/* Hover 8: Portal Spin */
+.hover-portal {
+  transition: all 0.6s ease;
+  transform-style: preserve-3d;
+}
+.hover-portal:hover {
+  transform: perspective(1000px) rotateZ(360deg) scale(1.1);
+  border-radius: 30%;
+}
+
+/* Hover 9: Magnetic Attract */
+.hover-magnetic {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-style: preserve-3d;
+}
+.hover-magnetic:hover {
+  transform: perspective(1000px) translateZ(50px) scale(1.08);
+}
+
+/* Hover 10: DNA Twist */
+.hover-dna {
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+}
+.hover-dna:hover {
+  transform: perspective(1000px) rotateY(180deg) translateX(15px);
+}
+
+/* Hover 11: Crystal Shine */
+.hover-crystal {
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.hover-crystal:hover {
+  transform: perspective(1000px) rotateX(15deg) rotateY(15deg);
+  filter: brightness(1.3) saturate(1.5);
+}
+
+/* Hover 12: Vortex Pull */
+.hover-vortex {
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-style: preserve-3d;
+}
+.hover-vortex:hover {
+  transform: perspective(1000px) rotateZ(180deg) scale(0.9) translateZ(-30px);
+}
+
+/* Hover 13: Accordion Unfold */
+.hover-accordion {
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+.hover-accordion:hover {
+  transform: perspective(1000px) scaleY(1.15) translateY(-5px);
+}
+
+/* Hover 14: Cube Flip */
+.hover-cube-flip {
+  transition: all 0.6s ease;
+  transform-style: preserve-3d;
+}
+.hover-cube-flip:hover {
+  transform: perspective(1000px) rotateX(90deg) rotateY(90deg);
+}
+
+/* Hover 15: Jello Effect */
+.hover-jello {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+.hover-jello:hover {
+  animation: jelloBounce3d 0.6s ease-in-out;
+}
+
+/* Hover 16: Neon Glow */
+.hover-neon {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+.hover-neon:hover {
+  transform: perspective(1000px) translateZ(20px);
+  box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+  filter: brightness(1.4);
+}
+
+/* Hover 17: Domino Tilt */
+.hover-domino {
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+.hover-domino:hover {
+  transform: perspective(1000px) rotateX(30deg) translateZ(40px);
+  transform-origin: bottom;
+}
+
+/* Hover 18: Explode Outward */
+.hover-explode {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-style: preserve-3d;
+}
+.hover-explode:hover {
+  transform: perspective(1000px) scale(1.2) translateZ(50px) rotateZ(10deg);
+}
+
+/* Hover 19: Page Flip */
+.hover-page-flip {
+  transition: all 0.6s ease;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+}
+.hover-page-flip:hover {
+  transform: perspective(1000px) rotateY(-30deg);
+}
+
+/* Hover 20: Kaleidoscope Rotate */
+.hover-kaleidoscope {
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+}
+.hover-kaleidoscope:hover {
+  transform: perspective(1000px) rotate(45deg) scale(1.1);
+  filter: hue-rotate(90deg) saturate(2);
+}
+
+/* Hover 21: Hologram Effect */
+.hover-hologram {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+.hover-hologram:hover {
+  transform: perspective(1000px) translateZ(30px);
+  opacity: 0.85;
+  filter: brightness(1.3) contrast(1.2);
+}
+
+/* Hover 22: Tunnel Zoom */
+.hover-tunnel {
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+.hover-tunnel:hover {
+  transform: perspective(500px) translateZ(100px) scale(1.15);
+}
+
+/* Hover 23: Matrix Shift */
+.hover-matrix {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+.hover-matrix:hover {
+  transform: perspective(1000px) translateY(-10px) rotateX(10deg);
+  filter: hue-rotate(120deg);
+}

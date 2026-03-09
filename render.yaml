@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: arogyamitra-backend
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: GROQ_API_KEY
+        value: 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
+      - key: SECRET_KEY
+        value: your-secret-key-change-in-production-09876543210987654321
+      - key: DATABASE_URL
+        value: sqlite:///./arogyamitra.db
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: PYTHONUNBUFFERED
+        value: "1"
