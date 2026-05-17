@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use environment variable or default to localhost
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_URL = 'https://arogyamitra-agentic-ai.onrender.com';
 
 const api = axios.create({
   baseURL: API_URL,
