@@ -3,9 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import {
   Activity, Apple, Calendar, ChevronRight, AlertCircle,
   TrendingUp, Trophy, Target, Zap, Heart, MessageCircle,
-  Clock, Star, Flame
+  Clock, Star, Flame, ArrowRight, Bot
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import api from '../services/api';
+import PremiumCard from '../components/PremiumCard';
+import StatCard from '../components/StatCard';
+import AnimatedButton from '../components/AnimatedButton';
 
 interface UserData {
   username: string;
@@ -143,329 +147,328 @@ function Dashboard() {
 
   const todayQuote = motivationalQuotes[new Date().getDate() % motivationalQuotes.length];
 
+  const quickActions = [
+    { label: 'New Workout', path: '/workout', icon: Zap, color: 'cyan' },
+    { label: 'New Meal Plan', path: '/meals', icon: Apple, color: 'emerald' },
+    { label: 'Log Progress', path: '/progress', icon: TrendingUp, color: 'blue' },
+    { label: 'AI Coach', path: '/coach', icon: Bot, color: 'teal' },
+  ];
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-        <div className="text-center">
-          <div className="w-20 h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <p className="text-xl font-semibold text-blue-900">Loading your health dashboard...</p>
-          <p className="text-sm text-blue-600 mt-2">Gathering your health data</p>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center p-4">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <motion.div
+            className="w-20 h-20 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full mx-auto mb-6"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          ></motion.div>
+          <p className="text-xl font-semibold text-white mb-2">Loading your health dashboard...</p>
+          <p className="text-sm text-gray-400">Gathering your health data</p>
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
-      {/* Header Section */}
-      <header className="mb-8">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-900">
-              Welcome back, {user?.full_name || user?.username || 'User'}! 👋
-            </h1>
-            <p className="text-blue-700 mt-3 flex items-center text-lg">
-              <Activity className="text-green-600 mr-2" size={22} />
-              <span className="font-semibold text-green-600">{stats.currentStreak} day streak</span>
-              <span className="mx-2">•</span>
-              <span>{user?.fitness_goal || 'Getting healthier every day'}</span>
-            </p>
-          </div>
-          <div className={`flex items-center px-5 py-2.5 rounded-full text-sm font-semibold shadow-md transition-all ${backendStatus === 'online' ? 'bg-green-100 text-green-700 border-2 border-green-500' :
-              backendStatus === 'offline' ? 'bg-red-100 text-red-700 border-2 border-red-500' : 'bg-gray-100 text-gray-700 border-2 border-gray-400'
-            }`}>
-            <div className={`w-2.5 h-2.5 rounded-full mr-2 ${backendStatus === 'online' ? 'bg-green-600 animate-pulse' :
-                backendStatus === 'offline' ? 'bg-red-500' : 'bg-gray-400'
-              }`} />
-            {backendStatus === 'online' ? 'Vitals Stable' : 'Offline'}
-          </div>
-        </div>
-
-        {/* Motivational Quote */}
-        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border-2 border-blue-200">
-          <div className="flex items-center">
-            <div className="p-3 bg-blue-100 rounded-xl mr-4">
-              <Activity className="text-blue-600" size={28} />
-            </div>
-            <p className="text-lg md:text-xl font-semibold text-blue-900 italic">"{todayQuote}"</p>
-          </div>
-        </div>
-      </header>
-
-      {backendStatus === 'offline' && (
-        <div className="mb-8 p-5 bg-red-950/50 border-2 border-red-500/30 rounded-2xl flex flex-col text-red-400 shadow-lg shadow-red-500/20">
-          <div className="flex items-center mb-2">
-            <AlertCircle className="mr-3" size={22} />
-            <span className="font-bold text-lg">Backend Service Unavailable</span>
-          </div>
-          <p className="text-sm ml-8">
-            The frontend is trying to connect to <code className="bg-red-900/50 px-2 py-1 rounded font-mono text-xs border border-red-500/30">http://127.0.0.1:8000</code>.
-            Please ensure the backend server is running and CORS is correctly configured.
-          </p>
-        </div>
-      )}
-
-      {/* Stats Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
-        <div className="bg-white p-6 rounded-xl shadow-md border-2 border-blue-200 hover:shadow-lg transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Activity className="text-blue-600" size={26} />
-            </div>
-            <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Total</span>
-          </div>
-          <div className="text-3xl font-bold text-blue-900">{stats.workoutPlans}</div>
-          <div className="text-sm font-medium text-blue-700 mt-1">Workout Plans</div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-md border-2 border-green-200 hover:shadow-lg transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Apple className="text-green-600" size={26} />
-            </div>
-            <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-full">Total</span>
-          </div>
-          <div className="text-3xl font-bold text-green-900">{stats.mealPlans}</div>
-          <div className="text-sm font-medium text-green-700 mt-1">Meal Plans</div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-md border-2 border-teal-200 hover:shadow-lg transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2 bg-teal-100 rounded-lg">
-              <TrendingUp className="text-teal-600" size={26} />
-            </div>
-            <span className="text-xs font-semibold text-teal-600 bg-teal-100 px-2 py-1 rounded-full">Logged</span>
-          </div>
-          <div className="text-3xl font-bold text-teal-900">{stats.progressEntries}</div>
-          <div className="text-sm font-medium text-teal-700 mt-1">Progress Entries</div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-md border-2 border-amber-200 hover:shadow-lg transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2 bg-amber-100 rounded-lg">
-              <Trophy className="text-amber-600" size={26} />
-            </div>
-            <span className="text-xs font-semibold text-amber-600 bg-amber-100 px-2 py-1 rounded-full">{stats.totalPoints} pts</span>
-          </div>
-          <div className="text-3xl font-bold text-amber-900">{stats.achievements}</div>
-          <div className="text-sm font-medium text-amber-700 mt-1">Achievements</div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Main Action Cards */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Workout Plan Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-blue-300 hover:shadow-xl transition-all">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <motion.header
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div>
-              <div className="flex items-center mb-4">
-                <div className="p-3 bg-blue-100 rounded-xl mr-4">
-                  <Activity className="text-blue-600" size={28} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-blue-900">Workout Plans</h2>
-                  <p className="text-blue-600 text-sm">Personalized routines</p>
-                </div>
-              </div>
-              <div className="mb-4">
-                <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="text-blue-700">Generated Plans</span>
-                  <span className="font-bold text-lg text-blue-900">{stats.workoutPlans}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate('/workout')}
-                className="w-full flex items-center justify-center bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all font-semibold shadow-md"
+              <motion.h1
+                className="text-4xl md:text-5xl font-bold text-white mb-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
               >
-                Generate New Plan <ChevronRight size={18} className="ml-1" />
-              </button>
-            </div>
-          </div>
-
-          {/* Meal Plan Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-green-300 hover:shadow-xl transition-all">
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="p-3 bg-green-100 rounded-xl mr-4">
-                  <Apple className="text-green-600" size={28} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-green-900">Meal Plans</h2>
-                  <p className="text-green-600 text-sm">Nutrition guidance</p>
-                </div>
-              </div>
-              <div className="mb-4">
-                <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="text-green-700">Created Plans</span>
-                  <span className="font-bold text-lg text-green-900">{stats.mealPlans}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate('/meals')}
-                className="w-full flex items-center justify-center bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all font-semibold shadow-md"
+                Welcome back, <span className="bg-gradient-to-r from-cyan-400 to-teal-500 bg-clip-text text-transparent">{user?.full_name || user?.username || 'User'}</span>! 👋
+              </motion.h1>
+              <motion.p
+                className="text-gray-400 mt-2 flex items-center gap-2 text-lg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
               >
-                Create Meal Plan <ChevronRight size={18} className="ml-1" />
-              </button>
+                <Flame className="text-orange-500 w-5 h-5" />
+                <span className="font-semibold text-cyan-400">{stats.currentStreak} day streak</span>
+                <span className="mx-2 text-gray-600">•</span>
+                <span className="text-gray-300">{user?.fitness_goal || 'Getting healthier every day'}</span>
+              </motion.p>
             </div>
+
+            {/* Status Badge */}
+            <motion.div
+              className={`
+                flex items-center px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg backdrop-blur-xl border
+                ${backendStatus === 'online'
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50'
+                  : backendStatus === 'offline'
+                  ? 'bg-red-500/20 text-red-300 border-red-500/50'
+                  : 'bg-gray-500/20 text-gray-300 border-gray-500/50'
+                }
+              `}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <motion.div
+                className={`w-2.5 h-2.5 rounded-full mr-2 ${
+                  backendStatus === 'online' ? 'bg-emerald-400' : backendStatus === 'offline' ? 'bg-red-400' : 'bg-gray-400'
+                }`}
+                animate={backendStatus === 'online' ? { scale: [1, 1.2, 1] } : {}}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              {backendStatus === 'online' ? '✓ System Online' : '✗ Offline'}
+            </motion.div>
           </div>
 
-          {/* Progress Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-teal-300 hover:shadow-xl transition-all">
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="p-3 bg-teal-100 rounded-xl mr-4">
-                  <TrendingUp className="text-teal-600" size={28} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-teal-900">Progress</h2>
-                  <p className="text-teal-600 text-sm">Track your journey</p>
-                </div>
-              </div>
-              <div className="mb-4">
-                {user?.current_weight && user?.target_weight && (
-                  <div className="flex items-center justify-between text-sm mb-2">
-                    <span className="text-teal-700">Goal</span>
-                    <span className="font-bold text-lg text-teal-900">{user.current_weight} → {user.target_weight} kg</span>
-                  </div>
-                )}
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-teal-700">Entries</span>
-                  <span className="font-bold text-lg text-teal-900">{stats.progressEntries}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate('/progress')}
-                className="w-full flex items-center justify-center bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition-all font-semibold shadow-md"
-              >
-                Log Progress <ChevronRight size={18} className="ml-1" />
-              </button>
-            </div>
-          </div>
-
-          {/* AI Coach Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-indigo-300 hover:shadow-xl transition-all">
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="p-3 bg-indigo-100 rounded-xl mr-4">
-                  <MessageCircle className="text-indigo-600" size={28} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-indigo-900">AI Health Coach</h2>
-                  <p className="text-indigo-600 text-sm">Chat with AROMI</p>
-                </div>
-              </div>
-              <div className="mb-4">
-                <p className="text-sm text-indigo-700">
-                  Get personalized advice and answers to your wellness questions
+          {/* Motivational Quote */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <PremiumCard gradient="accent" className="p-6">
+              <div className="flex items-start gap-4">
+                <motion.div
+                  className="p-3 bg-cyan-500/20 rounded-xl flex-shrink-0"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <Heart className="text-cyan-400 w-6 h-6" fill="currentColor" />
+                </motion.div>
+                <p className="text-lg md:text-xl font-semibold text-white italic leading-relaxed">
+                  "{todayQuote}"
                 </p>
               </div>
-              <button
-                onClick={() => navigate('/coach')}
-                className="w-full flex items-center justify-center bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-all font-semibold shadow-md"
-              >
-                Start Chat <ChevronRight size={18} className="ml-1" />
-              </button>
-            </div>
-          </div>
-        </div>
+            </PremiumCard>
+          </motion.div>
+        </motion.header>
 
-        {/* Sidebar - Recent Activity & Quick Actions */}
-        <div className="space-y-6">
-          {/* Recent Activity */}
-          <div className="bg-white p-6 rounded-xl shadow-md border-2 border-blue-200 hover:shadow-lg transition-all">
-            <div className="flex items-center mb-4 pb-3 border-b-2 border-blue-200">
-              <div className="p-2 bg-blue-100 rounded-lg mr-2">
-                <Clock className="text-blue-600" size={20} />
-              </div>
-              <h3 className="text-lg font-bold text-blue-900">Recent Activity</h3>
+        {/* Backend Status Alert */}
+        {backendStatus === 'offline' && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 p-5 bg-red-500/10 backdrop-blur-xl border border-red-500/30 rounded-2xl flex items-start gap-3 shadow-lg"
+          >
+            <AlertCircle className="text-red-400 w-6 h-6 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-bold text-red-300 mb-1">Backend Service Unavailable</h3>
+              <p className="text-red-400 text-sm">
+                Please ensure the backend server is running at <code className="bg-red-900/30 px-2 py-1 rounded font-mono text-xs">http://127.0.0.1:8000</code>
+              </p>
             </div>
-            {recentActivities.length > 0 ? (
-              <div className="space-y-3">
-                {recentActivities.map((activity, index) => {
-                  const Icon = activity.icon;
-                  return (
-                    <div key={index} className="flex items-start p-3 bg-blue-50 rounded-lg border border-blue-200 hover:border-blue-300 hover:shadow-md transition-all">
-                      <div className="p-2 bg-white rounded-lg mr-3 shadow-sm border border-blue-200">
-                        <Icon size={16} className="text-blue-600" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-blue-900 truncate">{activity.title}</p>
-                        <p className="text-xs text-blue-600 mt-1">{activity.date}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <Zap className="mx-auto text-blue-300 mb-3" size={40} />
-                <p className="text-sm font-semibold text-blue-700">No activity yet</p>
-                <p className="text-xs text-blue-600 mt-1">Start your wellness journey!</p>
-              </div>
-            )}
-          </div>
+          </motion.div>
+        )}
 
-          {/* Quick Actions */}
-          <div className="bg-white p-6 rounded-xl shadow-md border-2 border-green-200 hover:shadow-lg transition-all">
-            <div className="flex items-center mb-4 pb-3 border-b-2 border-green-200">
-              <div className="p-2 bg-green-100 rounded-lg mr-2">
-                <Zap className="text-green-600" size={20} />
-              </div>
-              <h3 className="text-lg font-bold text-green-900">Quick Actions</h3>
-            </div>
-            <div className="space-y-3">
-              <button
-                onClick={() => navigate('/profile')}
-                className="w-full flex items-center p-3 bg-green-50 rounded-lg border border-green-200 hover:border-green-400 hover:bg-green-100 hover:shadow-md transition-all text-left text-green-900"
-              >
-                <Target size={20} className="mr-3 text-green-600" />
-                <span className="text-sm font-semibold">Update Profile</span>
-                <ChevronRight size={16} className="ml-auto text-green-600" />
-              </button>
-              <button
-                onClick={() => navigate('/progress')}
-                className="w-full flex items-center p-3 bg-green-50 rounded-lg border border-green-200 hover:border-green-400 hover:bg-green-100 hover:shadow-md transition-all text-left text-green-900"
-              >
-                <Heart size={20} className="mr-3 text-green-600" />
-                <span className="text-sm font-semibold">Log Vitals</span>
-                <ChevronRight size={16} className="ml-auto text-green-600" />
-              </button>
-              <button
-                onClick={() => navigate('/coach')}
-                className="w-full flex items-center p-3 bg-green-50 rounded-lg border border-green-200 hover:border-green-400 hover:bg-green-100 hover:shadow-md transition-all text-left text-green-900"
-              >
-                <MessageCircle size={20} className="mr-3 text-green-600" />
-                <span className="text-sm font-semibold">Consult AI</span>
-                <ChevronRight size={16} className="ml-auto text-green-600" />
-              </button>
-            </div>
-          </div>
+        {/* Stats Overview */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          <StatCard
+            icon={Activity}
+            label="Workout Plans"
+            value={stats.workoutPlans}
+            color="cyan"
+            delay={0}
+          />
+          <StatCard
+            icon={Apple}
+            label="Meal Plans"
+            value={stats.mealPlans}
+            color="emerald"
+            delay={0.1}
+          />
+          <StatCard
+            icon={TrendingUp}
+            label="Progress Entries"
+            value={stats.progressEntries}
+            color="blue"
+            delay={0.2}
+          />
+          <StatCard
+            icon={Trophy}
+            label="Achievements"
+            value={stats.achievements}
+            color="amber"
+            delay={0.3}
+          />
+        </motion.div>
 
-          {/* Achievements Preview */}
-          {stats.achievements > 0 && (
-            <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-amber-300 hover:shadow-xl transition-all">
-              <div className="flex items-center mb-4">
-                <Trophy size={28} className="text-amber-600 mr-2" />
-                <h3 className="text-lg font-bold text-amber-900">Health Milestones</h3>
+        {/* Quick Actions */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          {quickActions.map((action, index) => {
+            const Icon = action.icon;
+            const colorMap = {
+              cyan: 'from-cyan-500/10 to-cyan-500/5 border-cyan-500/30 hover:border-cyan-400',
+              emerald: 'from-emerald-500/10 to-emerald-500/5 border-emerald-500/30 hover:border-emerald-400',
+              blue: 'from-blue-500/10 to-blue-500/5 border-blue-500/30 hover:border-blue-400',
+              teal: 'from-teal-500/10 to-teal-500/5 border-teal-500/30 hover:border-teal-400',
+            };
+
+            return (
+              <motion.button
+                key={action.path}
+                onClick={() => navigate(action.path)}
+                className={`relative rounded-xl p-4 border backdrop-blur-xl transition-all duration-300 group overflow-hidden bg-gradient-to-br ${colorMap[action.color as keyof typeof colorMap]}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + index * 0.05 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <Icon className={`w-6 h-6 ${
+                      action.color === 'cyan' ? 'text-cyan-400' :
+                      action.color === 'emerald' ? 'text-emerald-400' :
+                      action.color === 'blue' ? 'text-blue-400' :
+                      'text-teal-400'
+                    } group-hover:scale-110 transition-transform`} />
+                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors opacity-0 group-hover:opacity-100" />
+                  </div>
+                  <p className="text-white font-semibold text-sm text-left">{action.label}</p>
+                </div>
+              </motion.button>
+            );
+          })}
+        </motion.div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Cards */}
+          <motion.div
+            className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
+            {/* Workout Card */}
+            <PremiumCard gradient="cyan" className="p-6 group cursor-pointer" onClick={() => navigate('/workout')}>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-white mb-1">Workout Plans</h2>
+                  <p className="text-gray-400 text-sm">Personalized routines</p>
+                </div>
+                <motion.div
+                  className="p-3 bg-cyan-500/20 rounded-xl group-hover:bg-cyan-500/30 transition-colors"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <Activity className="text-cyan-400 w-6 h-6" />
+                </motion.div>
               </div>
-              <div className="bg-amber-50 rounded-xl p-5 mb-4 border border-amber-200">
-                <div className="text-4xl font-bold text-amber-900">{stats.achievements}</div>
-                <div className="text-sm text-amber-700 mt-1 font-semibold">Badges Earned</div>
-              </div>
-              <div className="text-sm mb-4">
-                <div className="flex justify-between mb-1 bg-amber-50 rounded-lg p-3 border border-amber-200">
-                  <span className="text-amber-700 font-medium">Health Points</span>
-                  <span className="font-bold text-lg text-amber-900">{stats.totalPoints}</span>
+              <div className="mb-6">
+                <div className="text-3xl font-bold text-cyan-400 mb-2">{stats.workoutPlans}</div>
+                <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-cyan-500 to-teal-500"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min(stats.workoutPlans * 20, 100)}%` }}
+                    transition={{ duration: 1, delay: 0.7 }}
+                  ></motion.div>
                 </div>
               </div>
-              <button
-                onClick={() => navigate('/progress')}
-                className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-all font-bold text-sm shadow-md"
-              >
-                View All Records <ChevronRight size={16} className="inline ml-1" />
-              </button>
-            </div>
-          )}
+              <AnimatedButton variant="primary" size="md" className="w-full">
+                Create New <ChevronRight size={16} />
+              </AnimatedButton>
+            </PremiumCard>
+
+            {/* Meals Card */}
+            <PremiumCard gradient="emerald" className="p-6 group cursor-pointer" onClick={() => navigate('/meals')}>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-white mb-1">Meal Plans</h2>
+                  <p className="text-gray-400 text-sm">Nutrition guidance</p>
+                </div>
+                <motion.div
+                  className="p-3 bg-emerald-500/20 rounded-xl group-hover:bg-emerald-500/30 transition-colors"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+                >
+                  <Apple className="text-emerald-400 w-6 h-6" />
+                </motion.div>
+              </div>
+              <div className="mb-6">
+                <div className="text-3xl font-bold text-emerald-400 mb-2">{stats.mealPlans}</div>
+                <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-500"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min(stats.mealPlans * 20, 100)}%` }}
+                    transition={{ duration: 1, delay: 0.8 }}
+                  ></motion.div>
+                </div>
+              </div>
+              <AnimatedButton variant="primary" size="md" className="w-full">
+                Create New <ChevronRight size={16} />
+              </AnimatedButton>
+            </PremiumCard>
+          </motion.div>
+
+          {/* Recent Activities */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+          >
+            <PremiumCard className="p-6 h-full">
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-cyan-400" />
+                Recent Activity
+              </h3>
+              <div className="space-y-4">
+                {recentActivities.length > 0 ? (
+                  recentActivities.map((activity, index) => {
+                    const Icon = activity.icon;
+                    return (
+                      <motion.div
+                        key={index}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.7 + index * 0.1 }}
+                        whileHover={{ x: 5 }}
+                      >
+                        <div className="p-2 bg-cyan-500/20 rounded-lg flex-shrink-0 mt-1">
+                          <Icon className="w-4 h-4 text-cyan-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-white truncate">{activity.title}</p>
+                          <p className="text-xs text-gray-400 mt-1">{activity.date}</p>
+                        </div>
+                      </motion.div>
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-8">
+                    <Star className="w-8 h-8 text-gray-600 mx-auto mb-2 opacity-50" />
+                    <p className="text-gray-400 text-sm">No recent activity yet</p>
+                    <p className="text-gray-500 text-xs mt-1">Start by creating your first plan</p>
+                  </div>
+                )}
+              </div>
+            </PremiumCard>
+          </motion.div>
         </div>
       </div>
     </div>

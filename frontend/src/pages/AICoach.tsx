@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import api from '../services/api';
-import { Send, Loader2, Bot, User, Sparkles, MessageCircle } from 'lucide-react';
+import { Send, Loader2, Bot, User, Sparkles, MessageCircle, Trash2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import PremiumCard from '../components/PremiumCard';
+import AnimatedButton from '../components/AnimatedButton';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -31,7 +34,6 @@ function AICoach() {
       const response = await api.get('/coach/history');
 
       if (response.data.length === 0) {
-        // Show welcome message if no history
         setMessages([
           { role: 'assistant', content: 'Hello! I am AROMI, your ArogyaMitra AI Coach! 🌟 I\'m here to help you with fitness, nutrition, and wellness advice. How can I assist you today?' }
         ]);
@@ -63,9 +65,7 @@ function AICoach() {
     setLoading(true);
 
     try {
-      const response = await api.post('/coach/chat',
-        { prompt: input }
-      );
+      const response = await api.post('/coach/chat', { prompt: input });
 
       const assistantMessage: Message = {
         role: 'assistant',
@@ -74,22 +74,19 @@ function AICoach() {
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error: any) {
       console.error('AI Coach Error:', error);
-      
+
       let errorMessage = 'Sorry, I encountered an error. Please try again.';
-      
+
       if (error.response) {
-        // Server responded with error
         errorMessage = error.response.data?.detail || error.response.data?.message || errorMessage;
         console.error('Server error:', error.response.status, error.response.data);
       } else if (error.request) {
-        // Request made but no response
         errorMessage = '❌ Cannot connect to backend server. Please ensure the backend is running on port 8000.';
         console.error('No response from server');
       } else {
-        // Other errors
         errorMessage = `❌ Error: ${error.message}`;
       }
-      
+
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: errorMessage
@@ -99,133 +96,181 @@ function AICoach() {
     }
   };
 
-  return (
-    <div className="flex flex-col h-[calc(100vh-8rem)] max-w-5xl mx-auto bg-gradient-to-br from-indigo-50 to-blue-50 p-6">
-      {/* Header */}
-      <div className="mb-6 bg-white rounded-2xl p-6 shadow-lg border-2 border-indigo-200">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="p-3 bg-indigo-100 rounded-xl mr-4">
-              <Bot className="text-indigo-600" size={32} />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-indigo-900 flex items-center gap-2">
-                AI Health Coach
-              </h1>
-              <p className="text-indigo-700 text-sm mt-1">Your personal fitness & nutrition assistant</p>
-            </div>
-          </div>
-          <MessageCircle className="text-indigo-400" size={40} />
-        </div>
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const clearHistory = () => {
+    if (confirm('Are you sure you want to clear the chat history?')) {
+      setMessages([
+        { role: 'assistant', content: 'Chat history cleared. How can I help you today?' }
+      ]);
+    }
+  };
+
+  if (loadingHistory) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center p-4">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <motion.div
+            className="w-20 h-20 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full mx-auto mb-6"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          ></motion.div>
+          <p className="text-xl font-semibold text-white mb-2">Loading AROMI AI Coach...</p>
+          <p className="text-sm text-gray-400">Initializing your personal trainer</p>
+        </motion.div>
       </div>
+    );
+  }
 
-      {/* Chat Messages Container */}
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 p-6 bg-white rounded-xl shadow-lg border-2 border-indigo-200 hover:shadow-xl transition-all">
-        {loadingHistory ? (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <Loader2 className="animate-spin text-indigo-600 mx-auto mb-3" size={40} />
-              <p className="text-indigo-600">Loading chat history...</p>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 p-4 md:p-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-gradient-to-br from-cyan-500/30 to-teal-500/30 rounded-2xl">
+                <Bot className="text-cyan-400 w-8 h-8" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-white">AROMI AI Coach</h1>
+                <p className="text-gray-400 text-sm mt-1">Your personal AI health and fitness companion</p>
+              </div>
             </div>
+            <motion.button
+              onClick={clearHistory}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-3 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 transition-all"
+              title="Clear chat history"
+            >
+              <Trash2 className="text-gray-400 hover:text-red-400 w-5 h-5" />
+            </motion.button>
           </div>
-        ) : (
-          <>
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div className={`flex max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                  {/* Avatar */}
-                  <div className={`shrink-0 ${msg.role === 'user' ? 'ml-3' : 'mr-3'}`}>
-                    <div className={`p-2.5 rounded-xl h-10 w-10 flex items-center justify-center shadow-md ${msg.role === 'user'
-                        ? 'bg-indigo-600'
-                        : 'bg-indigo-100 border-2 border-indigo-200'
-                      }`}>
-                      {msg.role === 'user' ? (
-                        <User size={18} className="text-white" />
-                      ) : (
-                        <Bot size={18} className="text-indigo-600" />
-                      )}
-                    </div>
-                  </div>
+        </motion.div>
 
-                  {/* Message Bubble */}
-                  <div className={`p-4 rounded-xl shadow-md transition-all hover:shadow-lg ${msg.role === 'user'
-                      ? 'bg-indigo-600 text-white rounded-tr-md'
-                      : 'bg-indigo-50 text-indigo-900 rounded-tl-md border-2 border-indigo-200'
-                    }`}>
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+        {/* Chat Container */}
+        <PremiumCard className="p-6 h-[600px] md:h-[700px] flex flex-col">
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto mb-6 space-y-4 pr-2">
+            <AnimatePresence>
+              {messages.map((message, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`
+                      max-w-xs md:max-w-md lg:max-w-2xl px-4 py-3 rounded-2xl
+                      ${message.role === 'user'
+                        ? 'bg-gradient-to-r from-cyan-500 to-teal-600 text-white rounded-br-none'
+                        : 'bg-white/10 border border-white/20 text-gray-100 rounded-bl-none'
+                      }
+                      backdrop-blur-xl
+                    `}
+                  >
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                   </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {loading && (
-              <div className="flex justify-start">
-                <div className="flex flex-row items-center">
-                  <div className="p-2.5 rounded-xl h-10 w-10 flex items-center justify-center bg-indigo-100 border-2 border-indigo-200 shadow-md mr-3">
-                    <Bot size={18} className="text-indigo-600" />
-                  </div>
-                  <div className="p-4 rounded-xl rounded-tl-md bg-indigo-50 border-2 border-indigo-200 shadow-md">
-                    <div className="flex items-center gap-2">
-                      <Loader2 size={18} className="animate-spin text-indigo-600" />
-                      <span className="text-sm text-indigo-700">AI is thinking...</span>
-                    </div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex justify-start"
+              >
+                <div className="bg-white/10 border border-white/20 px-4 py-3 rounded-2xl rounded-bl-none backdrop-blur-xl">
+                  <div className="flex items-center gap-2">
+                    <motion.div
+                      className="w-2 h-2 rounded-full bg-cyan-400"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    ></motion.div>
+                    <motion.div
+                      className="w-2 h-2 rounded-full bg-cyan-400"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0.1 }}
+                    ></motion.div>
+                    <motion.div
+                      className="w-2 h-2 rounded-full bg-cyan-400"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                    ></motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
             <div ref={messagesEndRef} />
-          </>
-        )}
-      </div>
-
-      {/* Input Area */}
-      <div className="flex gap-3">
-        <div className="flex-1 relative">
-          <input
-            type="text"
-            className="w-full p-4 pr-12 border-2 border-indigo-200 bg-white text-indigo-900 rounded-lg shadow-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-all hover:border-indigo-300"
-            placeholder="Ask me anything about fitness, nutrition, or health..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-            disabled={loading}
-          />
-          <MessageCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 text-indigo-400" size={20} />
-        </div>
-        <button
-          onClick={sendMessage}
-          disabled={loading || !input.trim()}
-          className="px-6 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg flex items-center gap-2"
-        >
-          <Send size={20} />
-          <span className="font-semibold hidden sm:inline">Send</span>
-        </button>
-      </div>
-
-      {/* Quick Suggestions - Optional */}
-      {messages.length === 1 && !loading && (
-        <div className="mt-4 animate-fadeIn">
-          <p className="text-xs text-gray-500 mb-2">💡 Try asking:</p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              'Create a workout plan',
-              'Suggest healthy meals',
-              'How to lose weight?',
-              'Best exercises for abs'
-            ].map((suggestion, idx) => (
-              <button
-                key={idx}
-                onClick={() => setInput(suggestion)}
-                className="px-3 py-1.5 text-xs bg-indigo-50 text-indigo-700 border-2 border-indigo-200 rounded-lg hover:border-indigo-400 hover:text-indigo-900 hover:bg-indigo-100 transition-all"
-              >
-                {suggestion}
-              </button>
-            ))}
           </div>
-        </div>
-      )}
+
+          {/* Input Area */}
+          <div className="flex items-end gap-3">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={loading}
+              placeholder="Ask me anything about fitness, nutrition, or wellness..."
+              className="flex-1 px-4 py-3 rounded-xl border-2 border-cyan-500/30 bg-white/10 text-white placeholder-gray-400 hover:border-cyan-400/50 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-300/50 transition-all duration-300 disabled:opacity-50"
+            />
+            <motion.button
+              onClick={sendMessage}
+              disabled={loading || !input.trim()}
+              whileHover={!loading && input.trim() ? { scale: 1.05 } : {}}
+              whileTap={!loading && input.trim() ? { scale: 0.95 } : {}}
+              className="p-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white hover:from-cyan-600 hover:to-teal-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+            >
+              {loading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                >
+                  <Loader2 className="w-5 h-5" />
+                </motion.div>
+              ) : (
+                <Send className="w-5 h-5" />
+              )}
+            </motion.button>
+          </div>
+        </PremiumCard>
+
+        {/* Info Card */}
+        <motion.div
+          className="mt-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <PremiumCard className="p-4 bg-gradient-to-r from-cyan-500/5 to-teal-500/5">
+            <p className="text-sm text-gray-300 flex items-start gap-2">
+              <Sparkles className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
+              <span>
+                AROMI is powered by advanced AI. Ask questions about workout routines, meal planning, health goals, or anything fitness-related. Your privacy is protected, and all conversations are encrypted.
+              </span>
+            </p>
+          </PremiumCard>
+        </motion.div>
+      </div>
     </div>
   );
 }

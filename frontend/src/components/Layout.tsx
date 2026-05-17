@@ -1,6 +1,8 @@
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, Home, Activity, Apple, TrendingUp, Bot, User, Menu, X } from 'lucide-react';
+import { LogOut, Home, Activity, Apple, TrendingUp, Bot, User, Menu, X, Heart } from 'lucide-react';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import GradientBg from './GradientBg';
 
 function Layout() {
   const navigate = useNavigate();
@@ -24,15 +26,20 @@ function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex flex-col md:flex-row">
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-white shadow-md sticky top-0 z-50 border-b-2 border-blue-200">
-        <h1 className="text-2xl font-bold text-blue-900">
-          ArogyaMitra
-        </h1>
+      <div className="md:hidden fixed top-0 left-0 right-0 flex items-center justify-between p-4 bg-white/10 backdrop-blur-xl border-b border-white/20 z-50">
+        <motion.div className="flex items-center gap-2">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center">
+            <Heart className="text-white w-6 h-6" fill="white" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-white">ArogyaMitra</h1>
+          </div>
+        </motion.div>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-lg hover:bg-blue-100 transition-colors text-blue-900"
+          className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -40,86 +47,118 @@ function Layout() {
 
       {/* Sidebar Navigation */}
       <nav className={`
-        w-full md:w-72 bg-white shadow-xl border-r-2 border-blue-200
-        md:block fixed md:static top-0 left-0 h-full z-40
-        transition-transform duration-300 ease-in-out
+        w-full md:w-72 fixed md:static top-0 left-0 h-screen md:h-auto
+        bg-white/10 backdrop-blur-xl border-r border-white/20
+        md:border-r md:border-white/20
+        flex flex-col
+        z-40 transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        pt-20 md:pt-0
       `}>
         <div className="p-6 flex flex-col h-full">
           {/* Logo - Desktop Only */}
-          <div className="hidden md:block mb-8">
-            <h1 className="text-3xl font-bold text-blue-900">
-              ArogyaMitra
-            </h1>
-            <p className="text-xs text-blue-600 mt-1 font-medium">✨ Your AI Health Companion</p>
-          </div>
+          <motion.div
+            className="hidden md:block mb-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center shadow-lg">
+                <Heart className="text-white w-7 h-7" fill="white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-white">ArogyaMitra</h1>
+                <p className="text-xs text-cyan-300 font-medium">AI Health Companion</p>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Menu Items */}
-          <ul className="space-y-2 flex-1 mt-4 md:mt-0">
+          <ul className="space-y-3 flex-1 mt-4 md:mt-0">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               return (
-                <li
+                <motion.li
                   key={item.path}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
                 >
                   <Link
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center p-3.5 rounded-xl transition-all group relative overflow-hidden ${isActive(item.path)
-                        ? 'bg-blue-600 text-white shadow-md border-2 border-blue-300'
-                        : 'text-blue-700 hover:bg-blue-50 hover:text-blue-900 border-2 border-transparent hover:border-blue-200'
-                      }`}
+                    className={`
+                      flex items-center px-4 py-3 rounded-xl transition-all group relative overflow-hidden
+                      ${isActive(item.path)
+                        ? 'bg-gradient-to-r from-cyan-500/30 to-teal-500/30 text-white shadow-lg border border-cyan-400/50'
+                        : 'text-gray-300 hover:text-white hover:bg-white/5 border border-white/10 hover:border-cyan-400/30'
+                      }
+                    `}
                   >
                     {/* Active Indicator */}
                     {isActive(item.path) && (
-                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-400 rounded-r-full"></div>
+                      <motion.div
+                        className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-cyan-400 to-teal-500 rounded-r-full"
+                        layoutId="active-indicator"
+                        transition={{ duration: 0.3 }}
+                      ></motion.div>
                     )}
 
-                    <Icon
-                      className={`mr-3 transition-transform group-hover:scale-110`}
-                      size={22}
-                    />
-                    <span className="font-medium">{item.label}</span>
+                    <Icon className={`mr-3 transition-transform group-hover:scale-110 ${isActive(item.path) ? 'text-cyan-300' : 'text-gray-400'}`} size={20} />
+                    <span className="font-semibold text-sm">{item.label}</span>
 
-                    {/* Hover Effect */}
                     {!isActive(item.path) && (
-                      <div className="absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                      </div>
+                      <div className="ml-auto w-1.5 h-1.5 bg-white/0 rounded-full group-hover:bg-cyan-400/50 transition-all"></div>
                     )}
                   </Link>
-                </li>
+                </motion.li>
               );
             })}
           </ul>
 
           {/* Logout Button */}
-          <button
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
             onClick={handleLogout}
-            className="mt-6 flex items-center p-3.5 text-red-600 hover:bg-red-50 rounded-xl transition-all group border-2 border-transparent hover:border-red-200"
+            className="mt-6 flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-all group border border-red-500/20 hover:border-red-400/50"
           >
-            <LogOut className="mr-3" size={22} />
-            <span className="font-medium">Logout</span>
-          </button>
+            <LogOut className="w-5 h-5" />
+            <span className="font-semibold text-sm">Logout</span>
+          </motion.button>
 
           {/* Footer */}
-          <div className="hidden md:block mt-4 pt-4 border-t-2 border-blue-200">
-            <p className="text-xs text-gray-500 text-center font-medium">
+          <motion.div
+            className="hidden md:block mt-4 pt-4 border-t border-white/20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <p className="text-xs text-gray-400 text-center font-medium">
               © 2026 ArogyaMitra
             </p>
-          </div>
+            <p className="text-xs text-cyan-400 text-center mt-1">
+              AI Health Companion
+            </p>
+          </motion.div>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div
+        <motion.div
           className="md:hidden fixed inset-0 bg-black/70 z-30"
           onClick={() => setIsMobileMenuOpen(false)}
-        ></div>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        ></motion.div>
       )}
 
-      <main className="flex-1 overflow-y-auto p-4 md:p-8">
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto md:pt-0 pt-20">
         <Outlet />
       </main>
     </div>

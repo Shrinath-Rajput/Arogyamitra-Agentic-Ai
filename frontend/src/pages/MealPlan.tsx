@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Loader2, Apple, History, Trash2 } from 'lucide-react';
+import { Loader2, Apple, History, Trash2, Sparkles, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PremiumCard from '../components/PremiumCard';
+import AnimatedButton from '../components/AnimatedButton';
 
 interface MealPlan {
   id: number;
