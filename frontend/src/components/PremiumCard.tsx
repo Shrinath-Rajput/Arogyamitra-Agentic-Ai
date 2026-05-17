@@ -7,6 +7,7 @@ interface PremiumCardProps {
   hover?: boolean;
   gradient?: 'cyan' | 'emerald' | 'teal' | 'accent' | 'none';
   delay?: number;
+  onClick?: () => void;
 }
 
 export const PremiumCard: React.FC<PremiumCardProps> = ({
@@ -15,6 +16,7 @@ export const PremiumCard: React.FC<PremiumCardProps> = ({
   hover = true,
   gradient = 'none',
   delay = 0,
+  onClick,
 }) => {
   const gradientBgs = {
     cyan: 'from-cyan-500/10 to-teal-500/10',
@@ -32,6 +34,7 @@ export const PremiumCard: React.FC<PremiumCardProps> = ({
       whileHover={hover ? { y: -5, transition: { duration: 0.3 } } : undefined}
     >
       <div
+      onClick={onClick}
         className={`
           relative rounded-2xl overflow-hidden
           bg-white/80 backdrop-blur-xl
